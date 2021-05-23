@@ -15,19 +15,19 @@ data = {
 }
 	
 	
+def parse_command(template_file, data):
+	template_parse = template_file.split('/')
+	template_dir = '/'.join(template_parse[:(-1)])
+	env = Environment(loader=FileSystemLoader(template_dir), trim_blocks=True)
+	template = env.get_template(template_parse[-1])
+	command = template.render(data)
+	return command
+	
+	
 def create_vpn_config(template1, template2, data_dict):
-	'''template1'''
-	template_parse1 = template1.split('/')
-	template_dir1 = '/'.join(template_parse1[:(-1)])
-	env1 = Environment(loader=FileSystemLoader(template_dir1), trim_blocks=True)
-	template1 = env1.get_template(template_parse1[-1])
-	'''template2'''
-	template_parse2 = template2.split('/')
-	template_dir2 = '/'.join(template_parse2[:(-1)])
-	env2 = Environment(loader=FileSystemLoader(template_dir2), trim_blocks=True)
-	template2 = env2.get_template(template_parse2[-1])
-	'''rendering'''
-	result = (template1.render(data_dict), template2.render(data_dict))
+	out_1 = parse_command(template1, data_dict)
+	out_2 = parse_command(template2, data_dict)
+	result = (out_1, out_2)
 	return result
 
 

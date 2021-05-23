@@ -22,7 +22,7 @@ def send_config_commands(device, config_commands, log=True):
 				print('\n' + 'Connecting to {}...'.format(ip))
 			ssh.enable()
 			for command in config_commands:
-				line = ssh.send_config_set(command)
+				line = ssh.send_config_set(command, exit_config_mode=False)
 				if 'Invalid input detected' in line:
 					print(f"Command {command} executed with error 'Invalid input detected' on device {ip}")
 					failed_commands.update({command: line})

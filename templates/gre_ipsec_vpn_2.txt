@@ -1,4 +1,4 @@
-crypto isakmp policy {{ tun_num }}
+crypto isakmp policy 10
  encr aes
  authentication pre-share
  group 5
@@ -13,7 +13,7 @@ crypto ipsec profile GRE
  set transform-set AESSHA
 
 interface Tunnel {{ tun_num }}
- ip address {{ tun_ip_2 }} 255.255.255.252
+ ip address {{ tun_ip_2 }} 
  tunnel source {{ wan_ip_2 }}
  tunnel destination {{ wan_ip_1 }}
  tunnel protection ipsec profile GRE
