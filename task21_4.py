@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
+import yaml
 from netmiko import ConnectHandler
 import textfsm
 from pprint import pprint
 from textfsm import clitable
 
 
+'''
 def parse_command_output(template, command_output):
 	with open(template) as template:
 		fsm = textfsm.TextFSM(template)
@@ -33,17 +35,18 @@ def parse_command_dynamic(command_output, attributes_dict, index_file="index", t
 		out.append(dictionary)
 	return out	
 
+'''
+
+def send_and_parse_show_command(device_dict, command):
+	with ConnectHandler(**device_dict) as r1:
+		r1.enable()
+		command_output = r1.send_command(command, use_textfsm=True)
+	return command_output
+
 
 if __name__ == "__main__":
-	r1_params = {
-		"device_type": "cisco_ios",
-		"host": "10.0.0.100",
-		"username": "cisco",
-		"password": "cisco",
-		"secret": "cisco",
-		}
-	with ConnectHandler(**r1_params) as r1:
-		r1.enable()
-		output = r1.send_command("sh ip int br")
-	result = parse_command_dynamic(output, attr)
-	print(result)	
+	with open("devices.yaml") as f:
+		devices = yaml.safe_load(f)
+	for dev in devices:
+		result = send_and_parse_show_command(dev, "sh ip int bri")
+		pprint(result)

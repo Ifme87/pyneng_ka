@@ -37,7 +37,7 @@ def transform_topology(file_yaml):
 	out = unique_network_map(result)
 	return out
 
-
+'''
 try:
     import graphviz as gv
 except ImportError:
@@ -112,3 +112,4 @@ def draw_topology(topology_dict, out_filename="img/result_17_3b_topology", style
 
 topology_to_drow = transform_topology('topology.yaml')
 draw_topology(topology_to_drow)
+'''
